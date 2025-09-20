@@ -4,7 +4,6 @@ from datetime import datetime
 from ai_travel.login import centered_login_screen
 from ai_travel.html_utils import generate_html_table
 from ai_travel.travel_agent import get_info, get_info_mock
-import time
 
 # Streamlit UI
 st.markdown("""

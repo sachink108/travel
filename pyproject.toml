@@ -1,7 +1,7 @@
 [project]
 name = "ai-travel"
 version = "0.1.0"
-description = ""
+description = "A travel planning app powered by AI."
 authors = [
     {name = "sachink108",email = "sachink108@gmail.com"}
 ]
