@@ -80,13 +80,12 @@ if go_clicked:
             """, unsafe_allow_html=True
         )        
         
-        with st.spinner("Finding the best travel options..."):
-            table_data = get_info(start_city, end_city, travel_datetime.isoformat())
-            # table_data = get_info_mock(start_city, end_city, travel_datetime.isoformat())
-            
-            html_table = generate_html_table(table_data)
-            st.markdown(html_table, unsafe_allow_html=True)
-            
+        # with st.spinner("Finding the best travel options..."):
+        table_data = get_info(start_city, end_city, travel_datetime.isoformat())
+        # table_data = get_info_mock(start_city, end_city, travel_datetime.isoformat())
+        
+        html_table = generate_html_table(table_data)
+        st.markdown(html_table, unsafe_allow_html=True)
 
     st.markdown("""
         <footer style="text-align: center; margin-top: 2rem; font-size: 0.9rem; color: #888;">

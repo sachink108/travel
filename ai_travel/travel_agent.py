@@ -30,37 +30,36 @@ def get_info(start_city, end_city, start_time)-> list[dict]:
         - Requires `get_route` and `get_weather` helper functions.
         - If no route is found, returns an empty DataFrame.
     """
-    cities = get_route(start_city, end_city, start_time)
     table_data = []
-    # with st.status("Fetching route and weather info...", expanded=True) as status:
-    #     status.update(label="Getting route...", state="running")
-    #     # Route fetching is already done above
-    #     status.update(label="Getting weather for each city...", state="running")
-    #     # Weather fetching is done in the loop below
-    #     # The rest of the code continues as normal
-    #     status.update(label="Done!", state="complete")
-    if cities := cities.get("segments", []) if cities else []:
-        # Fetch weather for each city at estimated arrival time
-        # 'start_city', 'destination_city', 'distance_to_destination', 'arrival_time', 'time_taken'
-        weather_results = []
-        for city_info in cities:
-            city_name = city_info[1]  # Destination city
-            arrival_time = city_info[3]  # Arrival time in ISO format
-            weather = get_weather(city_name, arrival_time)
-            weather_results.append((city_name, weather))
-        for i, city_info in enumerate(cities):
-            city_name = city_info[1]
-            distance = city_info[2]
-            arrival_time = city_info[3]
-            weather = weather_results[i][1] if i < len(weather_results) else {}
-            weather_summary = weather.get('summary', 'No data')
-            weather_icon = weather.get('icon', '')
-            table_data.append({
-                "City": city_name,
-                "Arrival Time": arrival_time,
-                "Time Taken": city_info[4] if len(city_info) > 4 else "N/A",
-                "Distance (km)": distance,
-                "Weather": f"{weather_icon} {weather_summary}"
-            })
-    
+    with st.status("Fetching route and weather info...", expanded=True) as status:
+        status.update(label="Getting route...", state="running")
+        cities = get_route(start_city, end_city, start_time)
+        # Route fetching is already done above
+        status.update(label="Getting weather for each city...", state="running")
+        if cities := cities.get("segments", []) if cities else []:
+            # Fetch weather for each city at estimated arrival time
+            # 'start_city', 'destination_city', 'distance_to_destination', 'arrival_time', 'time_taken'
+            weather_results = []
+            for city_info in cities:
+                city_name = city_info[1]  # Destination city
+                arrival_time = city_info[3]  # Arrival time in ISO format
+                status.update(label=f"Getting weather for {city_name}...", state="running")
+                weather = get_weather(city_name, arrival_time)
+                weather_results.append((city_name, weather))
+            for i, city_info in enumerate(cities):
+                city_name = city_info[1]
+                distance = city_info[2]
+                arrival_time = city_info[3]
+                weather = weather_results[i][1] if i < len(weather_results) else {}
+                weather_summary = weather.get('summary', 'No data')
+                weather_icon = weather.get('icon', '')
+                table_data.append({
+                    "City": city_name,
+                    "Arrival Time": arrival_time,
+                    "Time Taken": city_info[4] if len(city_info) > 4 else "N/A",
+                    "Distance (km)": distance,
+                    "Weather": f"{weather_icon} {weather_summary}"
+                })
+        status.update(label="🎉 All route and weather info fetched! Ready for your journey!", state="complete")        
+
     return table_data

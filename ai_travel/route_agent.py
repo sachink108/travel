@@ -14,7 +14,7 @@ def get_route_mock(start_city, end_city, start_time):
 
 @st.cache_data
 def get_route(start_city, end_city, start_time):
-    print(f"Getting route from {start_city} {start_time} to {end_city}")
+    # print(f"Getting route from {start_city} {start_time} to {end_city}")
     # Create the prompt for the AI model   
     # Update the prompt to include time taken for travel to the next city
     prompt_route = (
@@ -40,7 +40,6 @@ def get_route(start_city, end_city, start_time):
     # Parse the response to extract cities, distances, and arrival times
     try:
         cities_distances = json.loads(route_text)
-        
     except json.JSONDecodeError:
         st.error("Error parsing route information. Please try again.")
         return None, None

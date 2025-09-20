@@ -33,7 +33,6 @@ def weather_icon(weather):
    
 @st.cache_data
 def get_weather(city_name, arrival_time) -> str:
-    print(f"Getting weather for {city_name} at {arrival_time}")
     prompt_weather = (
         f"Return a JSON object with two keys: 'weather' and 'summary'. "
         f"'weather' should be a single word describing the weather in {city_name} at {arrival_time}. "
