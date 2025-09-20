@@ -3,6 +3,7 @@ from datetime import datetime
 
 from travel.travel_agent import get_info, get_info_mock
 from travel.login import centered_login_screen
+from travel.html_utils import generate_html_table
 
 
 # Streamlit UI
@@ -38,6 +39,7 @@ else:
     st.sidebar.write(f"Welcome, {getattr(st.user, 'display_name', st.user.name)}!")
     if st.sidebar.button("Logout", type="secondary", use_container_width=False, key="logout_sidebar", help="Logout", icon="🚪"):
         st.logout()
+
 
 with st.sidebar:
     st.markdown("---")
@@ -80,48 +82,13 @@ if go_clicked:
         # st.markdown("---")
         table_data = get_info_mock(start_city, end_city, travel_datetime.isoformat())
         # # Display route and weather information in a table
-        st.markdown("""
-            <style>
-                .travel-table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-bottom: 1.5rem;
-                }
-                .travel-table th, .travel-table td {
-                    border: 1px solid #ddd;
-                    padding: 0.75em;
-                    text-align: center;
-                }
-                .travel-table th {
-                    background-color: #f4f4f8;
-                    color: #333;
-                    font-weight: bold;
-                }
-                .travel-table tr:nth-child(even) {
-                    background-color: #fafafa;
-                }
-                .travel-table tr:hover {
-                    background-color: #e6f7ff;
-                }
-            </style>
-        """, unsafe_allow_html=True)
-
-        html_table = "<table class='travel-table'><thead><tr>"
-        # Make the table header bold using inline CSS
-        html_table += "<style>.travel-table th { font-weight: bold; }</style>"
-        for col in ["City", "Arrival Time", "Distance (km)", "Weather"]:
-            html_table += f"<th>{col}</th>"
-        html_table += "</tr></thead><tbody>"
-        for row in table_data:
-            html_table += "<tr>"
-            html_table += f"<td>{row['City']}</td>"
-            arrival_dt = datetime.fromisoformat(row['Arrival Time'])
-            formatted_arrival = arrival_dt.strftime('%I:%M %p, %A, %d %B %Y')
-            html_table += f"<td>{formatted_arrival}</td>"
-            html_table += f"<td>{row['Distance (km)']}</td>"
-            html_table += f"<td>{row['Weather']}</td>"
-            html_table += "</tr>"
-        html_table += "</tbody></table>"
-
+        
+        html_table = generate_html_table(table_data)
         st.markdown(html_table, unsafe_allow_html=True)
             
+
+    st.markdown("""
+        <footer style="text-align: center; margin-top: 2rem; font-size: 0.9rem; color: #888;">
+            Made with ❤️ by Sachin Kulkarni | <a href="mailto:sachink108@gmail.com">Contact</a>
+        </footer>
+    """, unsafe_allow_html=True)
