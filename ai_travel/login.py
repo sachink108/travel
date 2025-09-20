@@ -24,7 +24,7 @@ def centered_login_screen():
         st.markdown(
             """
             <div style="display: flex; flex-direction: column; align-items: center;">
-                <h1 style="margin-bottom: 0.5em;">My Library</h1>
+                <h1 style="margin-bottom: 0.5em;">My Travel Planner</h1>
                 <h3 style="margin-bottom: 1em;">Please login with your Google account to continue</h3>
             </div>
             """,

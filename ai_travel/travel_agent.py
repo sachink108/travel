@@ -1,8 +1,8 @@
-import pandas as pd
-from travel.weather_agent import get_weather
-from travel.route_agent import get_route
+import streamlit as st
+from ai_travel.weather_agent import get_weather
+from ai_travel.route_agent import get_route
 
-def get_info_mock(start_city, end_city, start_time)-> pd.DataFrame:
+def get_info_mock(start_city, end_city, start_time)-> list[dict]:
     data = [{'City': 'Navi Mumbai', 'Arrival Time': '2025-09-20T11:26:08', 'Time Taken': '0h 21m', 'Distance (km)': 20, 'Weather': '☀️ Clear skies and sunshine.'}, 
             {'City': 'Panvel', 'Arrival Time': '2025-09-20T11:46:08', 'Time Taken': '0h 21m', 'Distance (km)': 20, 'Weather': '☀️ Clear skies and sunny weather.'}, 
             {'City': 'Kharghar', 'Arrival Time': '2025-09-20T12:01:08', 'Time Taken': '0h 16m', 'Distance (km)': 15, 'Weather': '☀️ Clear skies and sunny weather.'}, 
@@ -10,9 +10,9 @@ def get_info_mock(start_city, end_city, start_time)-> pd.DataFrame:
             {'City': 'Vashi', 'Arrival Time': '2025-09-20T12:25:08', 'Time Taken': '0h 7m', 'Distance (km)': 7, 'Weather': '☀️ Clear skies and sunshine.'}]
     
     return data
-    # return pd.DataFrame(data)
 
-def get_info(start_city, end_city, start_time)-> pd.DataFrame:
+st.cache_data
+def get_info(start_city, end_city, start_time)-> list[dict]:
     """
     Retrieves route and weather information for a journey between two cities.
     Args:
@@ -30,8 +30,15 @@ def get_info(start_city, end_city, start_time)-> pd.DataFrame:
         - Requires `get_route` and `get_weather` helper functions.
         - If no route is found, returns an empty DataFrame.
     """
-    table_data = []
     cities = get_route(start_city, end_city, start_time)
+    table_data = []
+    # with st.status("Fetching route and weather info...", expanded=True) as status:
+    #     status.update(label="Getting route...", state="running")
+    #     # Route fetching is already done above
+    #     status.update(label="Getting weather for each city...", state="running")
+    #     # Weather fetching is done in the loop below
+    #     # The rest of the code continues as normal
+    #     status.update(label="Done!", state="complete")
     if cities := cities.get("segments", []) if cities else []:
         # Fetch weather for each city at estimated arrival time
         # 'start_city', 'destination_city', 'distance_to_destination', 'arrival_time', 'time_taken'
@@ -41,7 +48,6 @@ def get_info(start_city, end_city, start_time)-> pd.DataFrame:
             arrival_time = city_info[3]  # Arrival time in ISO format
             weather = get_weather(city_name, arrival_time)
             weather_results.append((city_name, weather))
-        table_data = []
         for i, city_info in enumerate(cities):
             city_name = city_info[1]
             distance = city_info[2]
@@ -57,6 +63,4 @@ def get_info(start_city, end_city, start_time)-> pd.DataFrame:
                 "Weather": f"{weather_icon} {weather_summary}"
             })
     
-    print(table_data)
-    df = pd.DataFrame(table_data)
-    return df
+    return table_data

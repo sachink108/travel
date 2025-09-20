@@ -1,7 +1,7 @@
 import json
 import streamlit as st
 
-from travel.ai_client import client
+from ai_travel.ai_client import client
 AVERAGE_SPEED_KMH = 55 # Average speed in km/h
 
 def get_route_mock(start_city, end_city, start_time):

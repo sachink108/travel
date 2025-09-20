@@ -1,10 +1,10 @@
 import streamlit as st
 from datetime import datetime
 
-from travel.travel_agent import get_info, get_info_mock
-from travel.login import centered_login_screen
-from travel.html_utils import generate_html_table
-
+from ai_travel.login import centered_login_screen
+from ai_travel.html_utils import generate_html_table
+from ai_travel.travel_agent import get_info, get_info_mock
+import time
 
 # Streamlit UI
 st.markdown("""
@@ -21,7 +21,7 @@ st.markdown("""
 st.set_page_config(
     layout="wide",
     page_title="My Travel App",
-    page_icon=":travel:",
+    page_icon="✈️",
     initial_sidebar_state="auto",
     
     menu_items={
@@ -39,7 +39,7 @@ else:
     st.sidebar.write(f"Welcome, {getattr(st.user, 'display_name', st.user.name)}!")
     if st.sidebar.button("Logout", type="secondary", use_container_width=False, key="logout_sidebar", help="Logout", icon="🚪"):
         st.logout()
-
+        
 
 with st.sidebar:
     st.markdown("---")
@@ -51,13 +51,13 @@ with st.sidebar:
             with col1:
                 date = st.date_input("Date", value=datetime.now().date(), key="start_date")
             with col2:
-                time = st.time_input("Time", value=datetime.now().time(), key="start_time")
+                _time = st.time_input("Time", value=datetime.now().time(), key="start_time")
         
     with st.container():
         end_city = st.text_input(label="Finish/Arrive", label_visibility="collapsed", 
                                 placeholder="Finish/Arrive")
 
-travel_datetime = datetime.combine(date, time)
+travel_datetime = datetime.combine(date, _time)
 
 go_clicked = st.sidebar.button("Go!", type="primary")
 if go_clicked:
@@ -78,13 +78,14 @@ if go_clicked:
                 </p>
             </div>
             """, unsafe_allow_html=True
-        )
-        # st.markdown("---")
-        table_data = get_info_mock(start_city, end_city, travel_datetime.isoformat())
-        # # Display route and weather information in a table
+        )        
         
-        html_table = generate_html_table(table_data)
-        st.markdown(html_table, unsafe_allow_html=True)
+        with st.spinner("Finding the best travel options..."):
+            table_data = get_info(start_city, end_city, travel_datetime.isoformat())
+            # table_data = get_info_mock(start_city, end_city, travel_datetime.isoformat())
+            
+            html_table = generate_html_table(table_data)
+            st.markdown(html_table, unsafe_allow_html=True)
             
 
     st.markdown("""
@@ -92,3 +93,5 @@ if go_clicked:
             Made with ❤️ by Sachin Kulkarni | <a href="mailto:sachink108@gmail.com">Contact</a>
         </footer>
     """, unsafe_allow_html=True)
+    
+# poetry run streamlit run .\travel\main.py --server.port 8502

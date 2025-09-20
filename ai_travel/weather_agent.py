@@ -1,6 +1,6 @@
 import json
 import streamlit as st
-from travel.ai_client import client
+from ai_travel.ai_client import client
 
 @st.cache_data
 def weather_icon(weather):
@@ -33,7 +33,6 @@ def weather_icon(weather):
    
 @st.cache_data
 def get_weather(city_name, arrival_time) -> str:
-    # Use OpenAI to get weather for the city at the specified time (v1.x API)
     print(f"Getting weather for {city_name} at {arrival_time}")
     prompt_weather = (
         f"Return a JSON object with two keys: 'weather' and 'summary'. "
