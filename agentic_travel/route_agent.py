@@ -1,7 +1,19 @@
+"""
+This module provides functions to generate and retrieve travel routes between two cities,
+including estimated arrival times and travel durations for each segment.
+Functions:
+    get_route(start_city, end_city, start_time):
+        Uses an AI model to generate a route between the specified start and end cities.
+        For each segment, provides the starting city, destination city, distance, estimated
+        arrival time, and time taken for travel. Results are cached to avoid redundant API calls.
+        Returns a JSON object with a field 'segments', which is a list of tuples:
+        ['start_city', 'destination_city', 'distance_to_destination', 'arrival_time', 'time_taken'].
+"""
+
 import json
 import streamlit as st
 
-from ai_travel.ai_client import client
+from agentic_travel.ai_client import client
 AVERAGE_SPEED_KMH = 60 # Average speed in km/h
 
 def get_route_mock(start_city, end_city, start_time):

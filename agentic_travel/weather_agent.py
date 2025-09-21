@@ -1,6 +1,25 @@
+"""
+weather_agent.py
+
+This module provides functionality for retrieving and processing weather data for travel destinations.
+
+Features:
+- Fetch weather data for specific locations.
+- Process and format weather information for display.
+- Integrate weather data into travel planning workflows.
+
+Dependencies:
+- Requires external APIs or libraries for weather data retrieval.
+- Utilizes datetime for handling time-related operations.
+
+Usage:
+- Import the module and call the relevant functions to fetch and process weather data.
+
+"""
+
 import json
 import streamlit as st
-from ai_travel.ai_client import client
+from agentic_travel.ai_client import client
 
 @st.cache_data
 def weather_icon(weather):

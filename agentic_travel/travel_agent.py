@@ -1,6 +1,21 @@
+""" 
+travel_agent.py
+This module provides functions to retrieve and display travel route and weather information for journeys between cities.
+It integrates with Streamlit for interactive status updates and uses helper agents to fetch route segments and weather data.
+Functions:
+    - get_info(start_city, end_city, start_time): Retrieves actual route segments and weather information for a journey,
+      displaying progress via Streamlit status updates.
+Dependencies:
+    - streamlit: For UI and status updates.
+    - agentic_travel.weather_agent.get_weather: Fetches weather data for a city at a given time.
+    - agentic_travel.route_agent.get_route: Fetches route segments between cities.
+Typical Usage:
+    Use `get_info` to obtain a list of dictionaries containing city, arrival time, travel time, distance, and weather summary
+    for each segment of a journey. Use `get_info_mock` for testing without external API calls.
+"""
 import streamlit as st
-from ai_travel.weather_agent import get_weather
-from ai_travel.route_agent import get_route
+from agentic_travel.weather_agent import get_weather
+from agentic_travel.route_agent import get_route
 
 def get_info_mock(start_city, end_city, start_time)-> list[dict]:
     data = [{'City': 'Navi Mumbai', 'Arrival Time': '2025-09-20T11:26:08', 'Time Taken': '0h 21m', 'Distance (km)': 20, 'Weather': '☀️ Clear skies and sunshine.'}, 

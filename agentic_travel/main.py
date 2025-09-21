@@ -1,9 +1,9 @@
 import streamlit as st
 from datetime import datetime
 
-from ai_travel.login import centered_login_screen
-from ai_travel.html_utils import generate_html_table
-from ai_travel.travel_agent import get_info, get_info_mock
+from agentic_travel.login import centered_login_screen
+from agentic_travel.html_utils import generate_html_table
+from agentic_travel.travel_agent import get_info, get_info_mock
 
 # Streamlit UI
 st.markdown("""
@@ -70,7 +70,7 @@ if go_clicked:
                 <h2 style="text-align:center; color:#2c3e50; font-size:2.2rem; margin-bottom:0.5rem;">
                     ✈️ Planning your journey...
                 </h2>
-                <p style="text-align:center; color:#34495e; font-size:1.2rem;">
+                <p style="text-align:center; color:#34495e; font-size:1.5rem;">
                     <b>From:</b> <span style="color:#2980b9;">{start_city}</span> &nbsp; 
                     <b>To:</b> <span style="color:#27ae60;">{end_city}</span> <br/>
                     <span style="color:#8e44ad;">{travel_datetime.strftime('%A, %d %B %Y at %I:%M %p')}</span>
@@ -87,9 +87,9 @@ if go_clicked:
         st.markdown(html_table, unsafe_allow_html=True)
 
     st.markdown("""
-        <footer style="text-align: center; margin-top: 2rem; font-size: 0.9rem; color: #888;">
+        <footer style="text-align: center; margin-top: 2rem; font-size: 0.8rem; color: #888;">
             Made with ❤️ by Sachin Kulkarni | <a href="mailto:sachink108@gmail.com">Contact</a>
         </footer>
     """, unsafe_allow_html=True)
     
-# poetry run streamlit run .\travel\main.py --server.port 8502
+# poetry run streamlit run .\agentic_travel\main.py --server.port 8502

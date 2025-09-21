@@ -1,5 +1,15 @@
-
-# import datetime
+""" 
+Generate an HTML table from the provided travel data.
+    table_data (list of dict): 
+        A list of dictionaries, each representing a row in the table. 
+        Each dictionary should contain the following keys:
+            - 'City' (str): Name of the city.
+            - 'Arrival Time' (str): Arrival time in ISO format (e.g., '2024-06-01T15:30:00').
+            - 'Distance (km)' (int or float): Distance to the city in kilometers.
+            - 'Weather' (str): Weather description for the city.
+Returns:
+    str: A string containing the HTML markup for the table, with styled headers and centered columns.
+"""
 from datetime import datetime
 
 def generate_html_table(table_data) -> str:
